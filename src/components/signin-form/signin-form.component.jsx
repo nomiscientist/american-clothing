@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { 
+    useState,
+    useContext
+} from "react";
 import {
     signInWithGooglePopup,
     createUserDocumentFromAuth,
@@ -7,6 +10,7 @@ import {
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
+import { UserContext } from "../../contexts/user.context";
 
 import './signin-form.styles.scss';
 
@@ -19,6 +23,8 @@ const SignInForm = () => {
 
     const [formFields, setFormFields] = useState(defaultFields);
     const { email, password } = formFields;
+
+    const { setCurrentUser } = useContext(UserContext);
 
     const signInWithGoogle = async () => {
         const { user } = await signInWithGooglePopup();
@@ -38,7 +44,8 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            const response = await signInUserWithEmailAndPassword(email, password);
+            const {user} = await signInUserWithEmailAndPassword(email, password);
+            setCurrentUser(user);
             resetFormFields();
         } catch (error) {
             switch (error.code) {
@@ -79,8 +86,8 @@ const SignInForm = () => {
                 ></FormInput>
 
                 <div className="buttons-container">
-                    <Button type='submit'>Sign In</Button>
-                    <Button type='button' buttonType='google' onClick={signInWithGoogle}>Google Sign In Popup</Button>
+                    <Button type='submit' buttonType='inverted' >Sign In</Button>
+                    <Button type='button' buttonType='google' onClick={signInWithGoogle}>Google Sign In</Button>
                 </div>
             </form>
 
