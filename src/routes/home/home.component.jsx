@@ -1,4 +1,4 @@
-import CategoriesContainer from "../../categories-container/categories-container.component";
+import CategoriesContainer from "../../components/categories-container/categories-container.component";
 
 function Home() {
 

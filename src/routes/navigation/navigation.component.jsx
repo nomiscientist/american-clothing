@@ -4,10 +4,10 @@ import {
 } from "react";
 import { Outlet, Link } from "react-router-dom";
 
-import { UserContext } from "../../../contexts/user.context";
-import { signOutUser } from "../../../utils/firebase/firebase.utils";
+import { UserContext } from "../../contexts/user.context";
+import { signOutUser } from "../../utils/firebase/firebase.utils";
 
-import { ReactComponent as AmericanClothing } from '../../../assets/a.svg';
+import { ReactComponent as AmericanClothing } from '../../assets/a.svg';
 import './navigation.styles.scss';
 
 const Navigation = () => {
@@ -25,7 +25,7 @@ const Navigation = () => {
                     </Link>
                     {
                         currentUser ? (
-                            <span className="nav-link" onClick={signOutUser} >SIGN OUT</span>
+                            <span className="nav-link" onClick={signOutUser}>SIGN OUT</span>
                         ) : (
                             <Link className="nav-link" to='/auth'>
                                 SIGN IN
