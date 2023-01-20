@@ -12,8 +12,12 @@ import {
 import {
     getFirestore,
     doc,
+    getDocs,
     getDoc,
-    setDoc
+    setDoc,
+    collection,
+    writeBatch,
+    query
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -39,7 +43,33 @@ export const signInWithGoogleRedirect = () => signInWithGoogleRedirect(auth, pro
 
 const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth, additionalInfo={}) => {
+export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db);
+
+    objectToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object.title.toLowerCase());
+        batch.set(docRef, object);
+    });
+
+    await batch.commit();
+}
+
+export const getCollectionAndDocuments = async (collectionName) => {
+    const collectionRef = collection(db, collectionName);
+    const q = query(collectionRef);
+
+    const querySnapshot = await getDocs(q);
+    const productMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+        const { title, items } = docSnapshot.data();
+        acc[title.toLowerCase()] = items;
+        return acc;
+    }, {});
+
+    return productMap;
+}
+
+export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) => {
 
     if (!userAuth) return;
 
@@ -66,13 +96,13 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo={}) =>
 }
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
-    if(!email || !password) return;
+    if (!email || !password) return;
 
-    return await createUserWithEmailAndPassword(auth,email,password);
+    return await createUserWithEmailAndPassword(auth, email, password);
 }
 
 export const signInUserWithEmailAndPassword = async (email, password) => {
-    if(!email || !password) return;
+    if (!email || !password) return;
 
     return await signInWithEmailAndPassword(auth, email, password);
 }
