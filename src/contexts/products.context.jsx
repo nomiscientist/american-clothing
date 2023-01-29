@@ -8,16 +8,16 @@ import PRODUCTS from '../shop-data.js';
 import { addCollectionAndDocuments, getCollectionAndDocuments } from "../utils/firebase/firebase.utils.js";
 
 export const ProductsContext = createContext({
-    products: {},
+    productsMap: {},
 })
 
 export const ProductsProvider = ({ children }) => {
-    const [products, setProducts] = useState({});
+    const [productsMap, setProductsMap] = useState({});
 
     useEffect(() => {
         const getProductMap = async () => {
             const productMap = await getCollectionAndDocuments('products');
-            setProducts(productMap)
+            setProductsMap(productMap)
         }
         getProductMap();
 
@@ -28,7 +28,7 @@ export const ProductsProvider = ({ children }) => {
     // }, []);
 
 
-    const value = { products };
+    const value = { productsMap };
     return (
         <ProductsContext.Provider value={value} >
             {children}
