@@ -5,7 +5,7 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
 
 import './signup-form.styles.scss';
 
@@ -63,7 +63,7 @@ const SignUpForm = () => {
                 <FormInput label='Password' type='password' name="password" value={password} onChange={handleChange} required></FormInput>
                 <FormInput label='Confirm Password' type='password' name="confirmPassword" value={confirmPassword} onChange={handleChange} required></FormInput>
 
-                <Button type='submit' buttonType='inverted'>Sign Up</Button>
+                <Button type='submit' buttonType={BUTTON_TYPE_CLASSES.inverted}>Sign Up</Button>
             </form>
         </div>
     )

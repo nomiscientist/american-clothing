@@ -1,15 +1,15 @@
-import './categories-container.styles.scss';
+import { CategoriesDiv } from './categories-container.styles.jsx';
 
 import CategoryItem from '../category-item/category-item.component';
 
 const CategoriesContainer = (props) => {
     const categories = props.categories;
     return (
-        <div className="categories-container" >
+        <CategoriesDiv>
           {categories.map((category) => (
             <CategoryItem category={category} key={category.id} />
           ))}
-        </div>
+        </CategoriesDiv>
     );
 };
 
